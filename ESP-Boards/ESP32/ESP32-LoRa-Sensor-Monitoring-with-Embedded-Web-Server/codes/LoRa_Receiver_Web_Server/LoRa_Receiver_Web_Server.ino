@@ -192,23 +192,8 @@ void getLoRaData() {
 
 //-----------------------Function to get date and time from NTPClient------------------//
 void getTimeStamp() {
-  while(!timeClient.update()) {
-    timeClient.forceUpdate();
-  }
-  // The formattedDate comes with the following format:
-  // 2018-05-28T16:00:13Z
-  // We need to extract date and time
-  formattedDate = timeClient.getFormattedDate();
-  Serial.println(formattedDate);
-
-  // Extract date
-  int splitT = formattedDate.indexOf("T");
-  day = formattedDate.substring(0, splitT);
-  Serial.println(day);
-  // Extract time
-  hour = formattedDate.substring(splitT+1, formattedDate.length()-1);
-  Serial.println(hour);
-  timestamp = day + " " + hour;
+  timeClient.update();  // This is non-blocking
+  timestamp = timeClient.getFormattedTime();
 }
 
 //-------------------------Display Readings on OLED-------------------------------------//
